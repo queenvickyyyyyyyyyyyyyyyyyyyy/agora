@@ -59,9 +59,9 @@ CREATE TABLE Entregas (
 );
 
 INSERT INTO Cliente (CodCli, Nome, Tel, Endereco, CPF, Email) VALUES
-(1, 'João Silva', '1198765432', 'Rua das Flores, 123 - São Paulo/SP', 12345678901, 'joao.silva@email.com'),
-(2, 'Maria Santos', '1191234567', 'Av. Paulista, 1000 - São Paulo/SP', 98765432109, 'maria.santos@email.com'),
-(3, 'Carlos Oliveira', '1195555666', 'Rua Augusta, 500 - São Paulo/SP', 45678912345, 'carlos.oliveira@email.com');
+(1, 'João Silva', '1198', 'Rua das Flores, 123 - Guarabira', 12345678901, 'joao.silva@email.com'),
+(2, 'Maria Santos', '1191', 'Rua Boa Vista, 1000 - Guarabira', 98765432109, 'maria.santos@email.com'),
+(3, 'Carlos Oliveira', '1195', 'Rua Bonita, 500 - Guarabira', 45678912345, 'carlos.oliveira@email.com');
 
 INSERT INTO Produto (CodPro, Custo, Descricao, Preco, Nome) VALUES
 (1, 500.00, 'Sofá retrátil e reclinável em couro legítimo', 1200.00, 'Sofá Retrátil Premium'),
@@ -89,11 +89,25 @@ INSERT INTO Veiculos (Placa, Capacidade) VALUES
 ('MNO4F56', 1200);
 
 INSERT INTO Motorista (CodMot, CPF, CNH, Nome, endereco) VALUES
-(1, 11122233344, 9876543210, 'Roberto Almeida', 'Rua dos Motoristas, 45 - São Paulo/SP'),
-(2, 55566677788, 1234567890, 'Fernanda Lima', 'Av. Brasil, 200 - São Paulo/SP'),
-(3, 99988877766, 5554443332, 'José Ferreira', 'Rua das Entregas, 78 - São Paulo/SP');
+(1, 11122233344, 9876543210, 'Roberto Almeida', 'Rua dos Motoristas, 45 - Guarabira'),
+(2, 55566677788, 1234567890, 'Fernanda Lima', 'Av. Brasil, 200 - Guarabira'),
+(3, 99988877766, 5554443332, 'José Ferreira', 'Rua das Entregas, 78 - Guarabira');
 
 INSERT INTO Entregas (Hora, Data, NumVen, Placa, CodMot) VALUES
 ('10:30:00', '2026-03-25', 1, 'ABC1D23', 1),
 ('14:15:00', '2026-03-26', 2, 'XYZ9E87', 2),
-('09:45:00', '2026-03-26', 3, 'MNO4F56', 3),
+('09:45:00', '2026-03-26', 3, 'MNO4F56', 3)
+
+SELECT NumVen, Valor_Total, CodCli FROM Venda; /*lista todas as vendaas*/
+
+SELECT v.NumVen, v.Valor_Total, c.Nome /*valor da venda com o nome do cliente*/
+FROM Venda v
+JOIN Cliente c ON v.CodCli = c.CodCli;
+
+SELECT Nome, Preco /*consulta com filtro usando where*/
+FROM Produto
+WHERE preco > 1000;
+
+SELECT Nome, Preco /*ordenaar do mais caro para o mais barato*/
+FROM Produto
+ORDER BY Preco DESC;
