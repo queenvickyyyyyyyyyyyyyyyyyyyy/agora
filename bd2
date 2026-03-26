@@ -1,0 +1,99 @@
+CREATE TABLE Cliente (
+    CodCli INTEGER PRIMARY KEY,
+    Nome VARCHAR(50) NOT NULL,
+    Tel CHAR(10),
+    Endereco VARCHAR(100),
+    CPF NUMERIC(11) UNIQUE,
+    Email VARCHAR(50)
+);
+
+CREATE TABLE Venda (
+    NumVen INTEGER PRIMARY KEY,
+    Valor_Total NUMERIC(11,2),
+    CodVdd INTEGER,
+    CodCli INTEGER NOT NULL,
+    FOREIGN KEY (CodCli) REFERENCES Cliente(CodCli)
+);
+
+CREATE TABLE Produto (
+    CodPro INTEGER PRIMARY KEY,
+    Custo NUMERIC(11,2),
+    Descricao TEXT,
+    Preco NUMERIC(11,2),
+    Nome VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Item_Venda (
+    CodPro INTEGER,
+    NumVen INTEGER,
+    vUnitario NUMERIC(11,2),
+    Qtd INTEGER,
+    PRIMARY KEY (CodPro, NumVen),
+    FOREIGN KEY (CodPro) REFERENCES Produto(CodPro),
+    FOREIGN KEY (NumVen) REFERENCES Venda(NumVen)
+);
+
+CREATE TABLE Veiculos (
+    Placa CHAR(7) PRIMARY KEY,
+    Capacidade INTEGER
+);
+
+CREATE TABLE Motorista (
+    CodMot INTEGER PRIMARY KEY,
+    CPF NUMERIC(11) UNIQUE,
+    CNH NUMERIC(10) UNIQUE,
+    Nome VARCHAR(50) NOT NULL,
+    endereco VARCHAR(100)
+);
+
+CREATE TABLE Entregas (
+    Hora TIME,
+    Data DATE,
+    NumVen INTEGER,
+    Placa CHAR(7),
+    CodMot INTEGER,
+    PRIMARY KEY (NumVen, Placa, CodMot, Hora, Data),
+    FOREIGN KEY (NumVen) REFERENCES Venda(NumVen),
+    FOREIGN KEY (Placa) REFERENCES Veiculos(Placa),
+    FOREIGN KEY (CodMot) REFERENCES Motorista(CodMot)
+);
+
+INSERT INTO Cliente (CodCli, Nome, Tel, Endereco, CPF, Email) VALUES
+(1, 'João Silva', '1198765432', 'Rua das Flores, 123 - São Paulo/SP', 12345678901, 'joao.silva@email.com'),
+(2, 'Maria Santos', '1191234567', 'Av. Paulista, 1000 - São Paulo/SP', 98765432109, 'maria.santos@email.com'),
+(3, 'Carlos Oliveira', '1195555666', 'Rua Augusta, 500 - São Paulo/SP', 45678912345, 'carlos.oliveira@email.com');
+
+INSERT INTO Produto (CodPro, Custo, Descricao, Preco, Nome) VALUES
+(1, 500.00, 'Sofá retrátil e reclinável em couro legítimo', 1200.00, 'Sofá Retrátil Premium'),
+(2, 800.00, 'Mesa de jantar em madeira maciça com tampo de vidro', 1800.00, 'Mesa de Jantar Luxo'),
+(3, 300.00, 'Cadeira estofada com estrutura em aço cromado', 450.00, 'Cadeira Presidente');
+
+INSERT INTO Venda (NumVen, Valor_Total, CodVdd, CodCli) VALUES
+(1, 2400.00, 101, 1),
+(2, 1800.00, 102, 2),
+(3, 3150.00, 103, 3);
+
+INSERT INTO Item_Venda (CodPro, NumVen, vUnitario, Qtd) VALUES
+
+(1, 1, 1200.00, 2),
+
+(2, 2, 1800.00, 1),
+
+(1, 3, 1200.00, 1),
+(3, 3, 450.00, 3),
+(2, 3, 1800.00, 1);
+
+INSERT INTO Veiculos (Placa, Capacidade) VALUES
+('ABC1D23', 1500),
+('XYZ9E87', 2000),
+('MNO4F56', 1200);
+
+INSERT INTO Motorista (CodMot, CPF, CNH, Nome, endereco) VALUES
+(1, 11122233344, 9876543210, 'Roberto Almeida', 'Rua dos Motoristas, 45 - São Paulo/SP'),
+(2, 55566677788, 1234567890, 'Fernanda Lima', 'Av. Brasil, 200 - São Paulo/SP'),
+(3, 99988877766, 5554443332, 'José Ferreira', 'Rua das Entregas, 78 - São Paulo/SP');
+
+INSERT INTO Entregas (Hora, Data, NumVen, Placa, CodMot) VALUES
+('10:30:00', '2026-03-25', 1, 'ABC1D23', 1),
+('14:15:00', '2026-03-26', 2, 'XYZ9E87', 2),
+('09:45:00', '2026-03-26', 3, 'MNO4F56', 3),
