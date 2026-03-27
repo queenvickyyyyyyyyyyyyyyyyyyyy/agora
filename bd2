@@ -111,3 +111,31 @@ WHERE preco > 1000;
 SELECT Nome, Preco /*ordenaar do mais caro para o mais barato*/
 FROM Produto
 ORDER BY Preco DESC;
+
+DELETE FROM Produto /*exclui produtos com preço menor de 500 reais*/
+WHERE Preco < 500;
+
+SELECT /*produtos que ainda nao foram vendidos*/
+    p.CodPro,
+    p.Nome,
+    p.Preco
+FROM Produto p
+LEFT JOIN Item_Venda iv ON p.CodPro = iv.CodPro
+WHERE iv.CodPro IS NULL;
+
+SELECT /*mostra todos os clientes, mesmo os sem compras*/
+    c.CodCli,
+    c.Nome,
+    v.NumVen,
+    v.Valor_Total
+FROM Venda v
+RIGHT JOIN Cliente c ON v.CodCli = c.CodCli
+ORDER BY c.Nome;
+
+SELECT /*quantidade de entregas feitas por cada motorista*/
+    m.Nome,
+    COUNT(e.CodMot) as Total_Entregas
+FROM Motorista m
+LEFT JOIN Entregas e ON m.CodMot = e.CodMot
+GROUP BY m.CodMot, m.Nome
+ORDER BY Total_Entregas DESC;
